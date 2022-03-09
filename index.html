@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <title>Screen Recorder</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <h1>Screen Recorder</h1>
+    <div style="text-align: center">
+        <video autplay controls="false" style="display:none" id="videoFeedback" src=""></video>
+        <video controls="true" style="display:none" id="videoResult" src=""></video>
+        <h2> </h2>
+    </div>
+    <div style="text-align: center">
+        <a href="#"  id="downloadBtn" style="display:none"><button id="downloadBtn">Download this video ⤵️</button></a>
+        <button id="startBtn"  onclick="startRecord()">Start recording 🔴</button>
+        <button id="stopBtn" style="display:none" onclick="stopScreen()">Stop recording ⬜</button>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
