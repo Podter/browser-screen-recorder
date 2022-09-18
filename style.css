@@ -12,5 +12,5 @@ button {
 }
 
 video {
-  @apply m-auto h-[8vh] block;
+  @apply m-auto h-[80vh] block;
 }

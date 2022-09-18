@@ -2,12 +2,58 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/react.svg" />
+    <link rel="icon" type="image/svg+xml" href="/javascript.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Screen Recorder</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <h1
+      class="underline decoration-[#486581] decoration-[3px] underline-offset-[6px] text-[220%] font-semibold text-white text-center"
+    >
+      Screen Recorder
+    </h1>
+
+    <div class="text-center">
+      <video
+        style="display: none"
+        autoplay
+        controls="false"
+        id="videoFeedback"
+        src=""
+      ></video>
+      <video
+        style="display: none"
+        controls="true"
+        id="videoResult"
+        src=""
+      ></video>
+    </div>
+
+    <div class="text-center">
+      <button
+        id="downloadBtn"
+        style="display: none"
+        class="bg-[#658148] hover:bg-[#485c33] focus:bg-[#485c33]"
+      >
+        Download this video ⤵️
+      </button>
+
+      <button
+        id="startBtn"
+        class="bg-[#486581] hover:bg-[#33485c] focus:bg-[#33485c]"
+      >
+        Start recording 🔴
+      </button>
+
+      <button
+        id="stopBtn"
+        style="display: none"
+        class="bg-[#5c3348] hover:bg-[#5c3348] focus:bg-[#5c3348]"
+      >
+        Stop recording ⬜
+      </button>
+    </div>
+
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
