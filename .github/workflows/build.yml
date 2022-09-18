@@ -13,7 +13,7 @@ jobs:
     # use node lts
     strategy:
       matrix:
-        node-version: [lts/gallium]
+        node-version: ["lts/gallium"]
 
     steps:
       # build
