@@ -10,17 +10,12 @@ jobs:
     name: Build and push to dist branch
     runs-on: ubuntu-latest
 
-    # use node lts
-    strategy:
-      matrix:
-        node-version: lts
-
     steps:
       # build
       - uses: actions/setup-node@v3
         with:
-        node-version: ${{ matrix.node-version }}
-        cache: "npm"
+          node-version: lts/gallium
+          cache: "npm"
       - run: npm install
       - run: npm run build
 
