@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Build and push to dist branch
+    runs-on: ubuntu-latest
+
+    # use node lts
+    strategy:
+      matrix:
+        node-version: [lts/gallium]
+
+    steps:
+      # build
+      - uses: actions/setup-node@v3
+        with:
+        node-version: ${{ matrix.node-version }}
+        cache: "npm"
+      - run: npm install
+      - run: npm run build
+
+      # push
+      - uses: crazy-max/ghaction-github-pages@v2.6.0
+        with:
+          target_branch: dist
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
