@@ -11,13 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
       # build
       - uses: actions/setup-node@v3
         with:
           node-version: lts/gallium
           cache: "yarn"
-      - run: npm install
-      - run: npm run build
+      - run: yarn
+      - run: yarn build
 
       # push
       - uses: crazy-max/ghaction-github-pages@v2.6.0
