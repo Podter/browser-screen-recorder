@@ -1,0 +1,47 @@
+name: Deploy static content to Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # checkout
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/gallium
+          cache: "yarn"
+      - run: yarn
+      - run: yarn build
+
+      # upload
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "dist"
+
+      # deploy
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
