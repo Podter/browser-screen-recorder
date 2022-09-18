@@ -2,6 +2,8 @@ import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import "./style.css";
 
 const ffmpeg = createFFmpeg({ log: true });
+// eslint-disable-next-line
+if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
 
 const videoFeedback = document.getElementById("videoFeedback");
 const videoResult = document.getElementById("videoResult");
