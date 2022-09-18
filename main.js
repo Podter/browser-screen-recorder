@@ -1,10 +1,14 @@
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import "./style.css";
+
+const ffmpeg = createFFmpeg({ log: true });
 
 const videoFeedback = document.getElementById("videoFeedback");
 const videoResult = document.getElementById("videoResult");
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
 const downloadBtn = document.getElementById("downloadBtn");
+const log = document.getElementById("log");
 
 startBtn.onclick = startRecord;
 stopBtn.onclick = stopScreen;
@@ -67,19 +71,32 @@ async function stopScreen() {
   });
 }
 
-function onStop() {
-  stopBtn.style.display = "none";
-  startBtn.style.display = "unset";
+async function onStop() {
+  log.innerHTML = "";
+  downloadBtn.style.display = "unset";
   videoFeedback.style.display = "none";
+  downloadBtn.innerHTML = "Processing video 🔄";
+  stopBtn.style.display = "none";
   completeBlob = new Blob(chunks, {
     type: chunks[0].type,
   });
-  videoResult;
+  if (!ffmpeg.isLoaded()) await ffmpeg.load();
+  ffmpeg.setLogger(({ type, message }) => {
+    if (type !== "info") log.innerHTML = message;
+  });
+  ffmpeg.FS("writeFile", "video", await fetchFile(completeBlob));
+  const fileName = `recorded-video_${getDateTime()}.mp4`;
+  await ffmpeg.run("-i", "video", fileName);
+  const videoFile = ffmpeg.FS("readFile", fileName);
+  const videoUrl = URL.createObjectURL(
+    new Blob([videoFile.buffer], { type: "video/mp4" })
+  );
+  startBtn.style.display = "unset";
   videoResult.style.display = "block";
-  const videoUrl = URL.createObjectURL(completeBlob);
   videoResult.src = videoUrl;
-  downloadBtn.style.display = "unset";
-  downloadBtn.download = "recorded-video_" + getDateTime();
+  downloadBtn.innerHTML = "Download this video ⤵️";
+  downloadBtn.onclick = () => download(videoUrl, fileName);
+  log.innerHTML = "";
 }
 
 function getDateTime() {
@@ -96,4 +113,12 @@ function getDateTime() {
   let day = date.getDate();
   day = (day < 10 ? "0" : "") + day;
   return day + "-" + month + "-" + year + "-" + hour + "-" + min + "-" + sec;
+}
+
+function download(url, name) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  a.remove();
 }

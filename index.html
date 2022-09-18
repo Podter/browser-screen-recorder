@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1
-      class="underline decoration-[#486581] decoration-[3px] underline-offset-[6px] text-[220%] font-semibold text-white text-center"
+      class="underline decoration-[#486581] decoration-[3px] underline-offset-[6px] text-[220%] font-semibold text-white text-center my-2"
     >
       Screen Recorder
     </h1>
@@ -16,8 +16,10 @@
     <div class="text-center">
       <video
         style="display: none"
+        class="pointer-events-none"
         autoplay
         controls="false"
+        muted
         id="videoFeedback"
         src=""
       ></video>
@@ -29,7 +31,9 @@
       ></video>
     </div>
 
-    <div class="text-center">
+    <p id="log" class="text-white text-center my-2"></p>
+
+    <div class="text-center my-2">
       <button
         id="downloadBtn"
         style="display: none"
